@@ -24,7 +24,7 @@ random_str = lambda N: ''.join(random.SystemRandom().choice(string.ascii_upperca
 
 
 def register(request):
-    if request.POST.has_key('requestcode'):
+    if request.POST.get('requestcode'):
         if not grecapcha_verify(request):
             context = {'message', 'سلام کد یا کلید یا تشخیص عکس زیر درست پر کنید ببخشید که فرم به شکل اولیه برنگشته'}
             return render(request, 'register.html', context)
@@ -53,7 +53,7 @@ def register(request):
         else:
             context = {'message','از نام کاربری دیگری استفاده کنید.ببخشید که فرم ذخیره نشده.درست میشه'}
             return render(request, 'register.html', context)
-    elif request.GET.has_key('code'):
+    elif request.GET.get('code'):
         email = request.GET['email']
         code = request.GET['code']
         if Passwordresetcodes.objects.filter(code=code).exists():

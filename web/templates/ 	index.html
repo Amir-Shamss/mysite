@@ -57,7 +57,7 @@
                   </span>
 
                  <form action="/task/add/" method="POST" class="form-inline" >
-                 <span onclick="showelement("subtask-{{task.id}}")"></span>
+                 <span onclick='showelement("subtask-{{task.id}}")'></span>
                    {% csrf_token %}
                    <input name="tasktext" class="subtask-{{task.id}} subtaskinput form-control" placeholder="اضافه کردن زیرتسک" size=12>
                    <input type="hidden" value="{{task.id}}" name="mothertask" >
