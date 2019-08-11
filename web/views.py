@@ -5,15 +5,12 @@ from __future__ import unicode_literals
 import random
 import string
 import time
-
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
-
 from json import JSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from web.models import User, Token, Expense, Income, Passwordresetcodes
-
 from datetime import datetime
 from django.contrib.auth.hashers import make_password
 from postmark import PMMail
@@ -56,7 +53,7 @@ def grecaptcha_verify(request):
 
 def register(request):
     if request.POST.get('requestcode'):
-        if not grecapcha_verify(request):
+        if not grecaptcha_verify(request):
             context = {'message', 'سلام کد یا کلید یا تشخیص عکس زیر درست پر کنید ببخشید که فرم به شکل اولیه برنگشته'}
             return render(request, 'register.html', context)
 
