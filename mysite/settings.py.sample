@@ -119,7 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-site-key=6LeUb7IUAAAAAJd96XpIhQvz23va_YS13xDNNOIh
+site-key='6LeUb7IUAAAAAJd96XpIhQvz23va_YS13xDNNOIh'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LeUb7IUAAAAAHAp0d2UkxrOCCZzJ5a03ZJSCSYM'
 RECAPTCHA_SECRET_KEY = ''
 POSTMARK_API_TOKEN = ''
 
