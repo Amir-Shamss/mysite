@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+#import requests
+import random
+import string
+import time
+
+from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from json import JSONEncoder
 from django.views.decorators.csrf import csrf_exempt
-from web.models import User, Token, Expense, Income
+from web.models import User, Token, Expense, Income, Passwordresetcodes
 from datetime import datetime
 from django.contrib.auth.hashers import make_password
-import random
-import string
-import time
-import  os
+#from postmark import PMMail
+
+
 #from postmark.core import PMMail
 
 
@@ -19,6 +24,30 @@ import  os
 
 
 random_str = lambda N: ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits))
+
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def grecaptcha_verify(request):
+    data = request.POST
+    captcha_rs = data.get('g-recaptcha-response')
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    params = {
+        'secret': settings.RECAPTCHA_SECRET_KEY,
+        'response': captcha_rs,
+        'remoteip': get_client_ip(request)
+    }
+    verify_rs = requests.get(url, params=params, verify=True)
+    verify_rs = verify_rs.json()
+    return verify_rs.get("success", False)
 
 
 
