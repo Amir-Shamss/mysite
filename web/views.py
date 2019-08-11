@@ -39,7 +39,7 @@ def get_client_ip(request):
 def grecaptcha_verify(request):
     data = request.POST
     captcha_rs = data.get('g-recaptcha-response')
-    url = "https://www.google.com/recaptcha/api/siteverify"
+    url = "https://www.google.com/recaptcha/admin/site/347238292"
     params = {
         'secret': settings.RECAPTCHA_SECRET_KEY,
         'response': captcha_rs,
