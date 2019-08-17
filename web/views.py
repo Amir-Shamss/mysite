@@ -16,7 +16,6 @@ from django.contrib.auth.hashers import make_password
 from postmark import PMMail
 
 
-#from postmark.core import PMMail
 
 
 # Create your views here.
