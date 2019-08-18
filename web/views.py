@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-#import requests
+import requests
 import random
 import string
 import time
+import json
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -14,7 +15,6 @@ from web.models import User, Token, Expense, Income, Passwordresetcodes
 from datetime import datetime
 from django.contrib.auth.hashers import make_password
 from postmark import PMMail
-
 
 
 
@@ -35,7 +35,7 @@ def get_client_ip(request):
 
 
 def grecaptcha_verify(request):
-    data = request.get()
+    data = request.POST
     captcha_rs = data.get('g-recaptcha-response')
     url = "https://www.google.com/recaptcha/admin/site/347238292"
     params = {
@@ -44,10 +44,9 @@ def grecaptcha_verify(request):
         'remoteip': get_client_ip(request)
     }
     verify_rs = requests.get(url, params=params, verify=True)
+    #print (type(verify_rs))
     verify_rs = verify_rs.json()
     return verify_rs.get("success", False)
-
-
 
 
 def register(request):
