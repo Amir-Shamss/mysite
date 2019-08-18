@@ -37,14 +37,13 @@ def get_client_ip(request):
 def grecaptcha_verify(request):
     data = request.POST
     captcha_rs = data.get('g-recaptcha-response')
-    url = "https://www.google.com/recaptcha/admin/site/347238292"
+    url = "https://www.google.com/recaptcha/api/siteverify"
     params = {
         'secret': settings.RECAPTCHA_SECRET_KEY,
         'response': captcha_rs,
         'remoteip': get_client_ip(request)
     }
     verify_rs = requests.get(url, params=params, verify=True)
-    #print (type(verify_rs))
     verify_rs = verify_rs.json()
     return verify_rs.get("success", False)
 
@@ -52,14 +51,14 @@ def grecaptcha_verify(request):
 def register(request):
     if request.POST.get('requestcode'):
         if not grecaptcha_verify(request):
-            context = {'message', 'سلام کد یا کلید یا تشخیص عکس زیر درست پر کنید ببخشید که فرم به شکل اولیه برنگشته'}
+            context = {'message': 'سلام کد یا کلید یا تشخیص عکس زیر را درست پر کنید ببخشید که فرم به شکل اولیه برنگشته'}
             return render(request, 'register.html', context)
 
         if User.objects.filter(email = request.POST['email']).exists():
-            context = {'message', 'ببخشید که فرم ذخیره نمیشه درست میشه'}
+            context = {'message': 'ببخشید که فرم ذخیره نمیشه درست میشه'}
             return render(request, 'register.html', context)
 
-        if User.objects.filter(username = request.POST['username']).exists():
+        if not User.objects.filter(username = request.POST['username']).exists():
             code = random_str(28)
             now = datetime.now()
             email = request.POST['email']
@@ -77,7 +76,7 @@ def register(request):
             context = {'message': 'لطفا پس از چک کردن ایمیل روی لینک زیر کلیک کنید'}
             return render(request, 'login.html', context)
         else:
-            context = {'message','از نام کاربری دیگری استفاده کنید.ببخشید که فرم ذخیره نشده.درست میشه'}
+            context = {'message':'از نام کاربری دیگری استفاده کنید.ببخشید که فرم ذخیره نشده.درست میشه'}
             return render(request, 'register.html', context)
     elif request.GET.get('code'):
         email = request.GET['email']
@@ -88,10 +87,10 @@ def register(request):
             this_token = random_str(48)
             token = Token.objects.create(user=newuser, token=this_token)
             Passwordresetcodes.objects.filter(code=code).delete()
-            context = {'message', 'اکانت شما فعال شد توکن شما {} است آن را ذخیره کنید چون نمایش داده نخواهد شد'.format(this_token)}
+            context = {'message': 'اکانت شما فعال شد توکن شما {} است آن را ذخیره کنید چون نمایش داده نخواهد شد'.format(this_token)}
             return render(request, 'login.html', context)
         else:
-            context = {'message', 'فعال سازی معتبر نیست در صورت نیاز دبار تلاش کنید'}
+            context = {'message': 'فعال سازی معتبر نیست در صورت نیاز دبار تلاش کنید'}
             return render(request, 'login.html', context)
     else:
         context = {'message': ''}
