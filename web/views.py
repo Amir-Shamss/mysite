@@ -35,7 +35,7 @@ def get_client_ip(request):
 
 
 def grecaptcha_verify(request):
-    data = request.POST
+    data = request.get()
     captcha_rs = data.get('g-recaptcha-response')
     url = "https://www.google.com/recaptcha/admin/site/347238292"
     params = {
@@ -72,7 +72,7 @@ def register(request):
                              #subject = 'برای فعال سازی به لینک زیر مراجعه کنید http://www.hadirasool.tk/accounts/register?email={}&code={}'.format(email, code),
                              #sender = 'amir.shamss21@gmail.com',
                              #to = email,
-                             #text_body = 'ایمیل تودو خود را در لینک زیر کلیک کنی',
+                             #text_body = 'ایمیل بستون خود را در لینک زیر کلیک کنی',
                              #tag = 'create account')
             #message.send()
             context = {'message': 'لطفا پس از چک کردن ایمیل روی لینک زیر کلیک کنید'}
