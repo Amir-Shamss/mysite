@@ -73,7 +73,44 @@ def register(request):
                              #text_body = 'ایمیل بستون خود را در لینک زیر کلیک کنی',
                              #tag = 'create account')
             #message.send()
-            context = {'message': 'لطفا پس از چک کردن ایمیل روی لینک زیر کلیک کنید'}
+            #context = {'message': 'لطفا پس از چک کردن ایمیل روی لینک زیر کلیک کنید'}
+            message = 'ایمیلی حاوی لینک فعال سازی اکانت به شما فرستاده شده، لطفا پس از چک کردن ایمیل، روی لینک کلیک کنید.'
+            message = 'قدیم ها ایمیل فعال سازی می فرستادیم ولی الان شرکتش ما رو تحریم کرده (: پس راحت و بی دردسر'
+            body = " برای فعال کردن اکانت بستون خود روی لینک روبرو کلیک کنید: <a href=\"{}?code={}\">لینک رو به رو</a> ".format(request.build_absolute_uri('/accounts/register/'), code)
+            message = message + body
+            print(code)
+            context = {
+                'message': message }
+#paeine hamina gozashtam
+            return render(request, 'index.html', context)
+        else:
+            context = {
+                'message': 'متاسفانه این نام کاربری قبلا استفاده شده است. از نام کاربری دیگری استفاده کنید. ببخشید که فرم ذخیره نشده. درست می شه'}  # TODO: forgot password
+            return render(request, 'register.html', context)
+    elif request.GET.has_key('code'):  # user clicked on code
+        code = request.GET['code']
+        if Passwordresetcodes.objects.filter(
+                code=code).exists():  # if code is in temporary db, read the data and create the user
+            new_temp_user = Passwordresetcodes.objects.get(code=code)
+            newuser = User.objects.create(username=new_temp_user.username, password=new_temp_user.password,
+                                          email=new_temp_user.email)
+            this_token = get_random_string(length=48)
+            token = Token.objects.create(user=newuser, token=this_token)
+            # delete the temporary activation code from db
+            Passwordresetcodes.objects.filter(code=code).delete()
+            context = {
+                'message': 'اکانت شما ساخته شد. توکن شما {} است. آن را ذخیره کنید چون دیگر نمایش داده نخواهد شد! جدی!'.format(
+                    this_token)}
+            return render(request, 'index.html', context)
+        else:
+            context = {
+                'message': 'این کد فعال سازی معتبر نیست. در صورت نیاز دوباره تلاش کنید'}
+            return render(request, 'register.html', context)
+    else:
+        context = {'message': ''}
+        return render(request, 'register.html', context)
+"""
+ina qablan bode vali man barae in ke email nemizad majbor shodam az bestoon asli jadi az in ja be bado bardaram sry!!!
             return render(request, 'login.html', context)
         else:
             context = {'message':'از نام کاربری دیگری استفاده کنید.ببخشید که فرم ذخیره نشده.درست میشه'}
@@ -95,7 +132,7 @@ def register(request):
     else:
         context = {'message': ''}
         return render(request, 'register.html', context)
-
+"""
 
 
 
