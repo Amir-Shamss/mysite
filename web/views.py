@@ -86,7 +86,7 @@ def register(request):
             context = {
                 'message': 'متاسفانه این نام کاربری قبلا استفاده شده است. از نام کاربری دیگری استفاده کنید. ببخشید که فرم ذخیره نشده. درست می شه'}  # TODO: forgot password
             return render(request, 'register.html', context)
-    elif request.GET.has_key('code'):  # user clicked on code
+    elif request.GET.get('code'):  # user clicked on code
         code = request.GET['code']
         if Passwordresetcodes.objects.filter(
                 code=code).exists():  # if code is in temporary db, read the data and create the user
