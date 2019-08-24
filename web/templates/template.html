@@ -1,6 +1,6 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
-<html class="no-js" lang="fa" style="direction: rtl !important;">
+<html class="no-js" lang="fa" dir="rtl">
 
 <head>
     <meta charset="utf-8">
@@ -11,10 +11,11 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static 'favicon.ico' %}">
 
-    <title>بستون بدون پول کجاست</title>
-
-    <link rel="stylesheet" href="{% static 'web/css/bootstrap.min.css' %}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'web/css/bootstrap.rtl.css' %}" crossorigin="anonymous">
+    <title>بستون، پول کجاست؟</title>
+    <!--
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap.min.css' %}" crossorigin="anonymous">
+-->
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap-rtl.css' %}" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'web/css/bootstrap-theme.min.css' %}" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'web/css/style.css' %}">
     <!-- Latest compiled and minified CSS -->
@@ -22,11 +23,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
-    <!-- <link rel="stylesheet" href="/static/css/style.css" > -->
 
 </head>
 
-<body dir="rtl" style="text-align: right !important;">
+<body>
 
 
 
@@ -44,19 +44,18 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                <a class="navbar-brand" href="http://todoer.ir">
-                    <img src="{% static 'web/images/482994.jpg' %}">
-                </a>
+                <a class="navbar-brand" href="{% url 'index' %}">			                
+                      بستون
+                    </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     {% if user.is_authenticated %}
                     <!--<li><a href="/static/todoer_release.apk">اپ اندروید</a></li>-->
-                    <li><a href="/accounts/logout">خروج</a></li>
+                    <li><a href="{% url 'logout' %}">خروج</a></li>
                     {% else %}
-                    <li><a href="/accounts/login">ورود</a></li>
-                    <li><a href="/accounts/register">ثبت نام</a></li>
+                    <li><a href="{% url 'register' %}">ثبت نام</a></li>
                     <!--<li><a href="/static/todoer_release.apk">اپ اندروید</a></li>-->
                     {% endif %}
                 </ul>
@@ -68,7 +67,6 @@
 
     <!-- Page Content -->
     <div class="container">
-        <h2>بستون</h2>
         {% block content %} {% endblock %}
 
     </div>
@@ -78,28 +76,24 @@
             <div class="">
 
                 <p>
-                    <strong>تودوئر</strong> یک پروژهٔ آزاد و متن‌باز است.<br>
-                    <a href="https://github.com/jadijadi/todoer">مخزن گیت‌هاب پروژه</a> |
-                    <a href="http://gapper.ir/channel/todoer">گزارش مشکلات و پیشنهادها</a>
+                    <strong>بستون</strong> یک پروژهٔ آزاد و متن‌باز است.<br>
+                    <a href="https://github.com/Amir-Shamss/mysite">مخرن گیت‌هاب پروژه</a>
+                    <a href="http://gapper.ir/channel/bestoon">گزارش مشکلات و پیشنهادها</a>
                 </p>
-
-                <p>
-                    <a href="/static/todoer_release.apk">
-                  دریافت اپ اندروید بستون ولی هنوز آماده نشده
-                </a>
             </div>
         </div>
     </footer>
     <!-- /.container -->
 
     <!-- jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'web/jss/bootstrap.min.js' %}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 
-    <script src="{% static 'web/jss/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'web/jss/awesome.js' %}"></script>
+    <script src="{% static 'js/awesome.js' %}"></script>
+
 
     {% block footer %} {% endblock %}
 

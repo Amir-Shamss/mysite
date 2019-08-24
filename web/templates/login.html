@@ -15,6 +15,8 @@
         </p>
         {% endif %} {% endif %}
         <p>
+
+
             این فعلا یک سیستم شخصی است که جادی برای استفاده خودش نوشته. نه خیلی محکم است و نه برای استفاده عمومی. در نتیجه لطفا برای هک و غیره تلاش نکنین (:
         </p>
         <p>
@@ -39,7 +41,7 @@
                         <h3 class="panel-title">ورود</h3>
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="/accounts/login/">
+                        <form class="form-horizontal" method="POST" action="{% url 'login' %}">
                             {% csrf_token %}
                             <input type="hidden" name="dologin" value="true" />
                             <input type="hidden" name="next" value="{{ next }}" />
@@ -62,14 +64,18 @@
                             </div>
                         </form>
                         <ul>
-                            <li><a href="/accounts/register/">عضو نیستید؟ حیف نیست؟ از اینجا عضو بشین</a></li>
-                            <li><a href="/accounts/resetpassword/">پسوردتون گم شده؟ یه جدیدش رو درخواست بدین</a></li>
+                            <li><a href="{% url 'register' %}">عضو نیستید؟ حیف نیست؟ از اینجا عضو بشین</a></li>
+                            <li><a href="{% url 'reset_password' %}">پسوردتون گم شده؟ یه جدیدش رو درخواست بدین</a></li>
                             <ul>
                     </div>
                 </div>
 
             </div>
         </div>
+
+
+
+
     </div>
 </div>
 
